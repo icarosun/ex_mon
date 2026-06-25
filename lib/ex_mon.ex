@@ -28,6 +28,8 @@ defmodule ExMon do
     |> Game.start(player)
 
     Status.print_round_message(Game.info())
+
+    handle_started_computer(Game.info())
   end
 
   def make_move(move) do
@@ -45,6 +47,12 @@ defmodule ExMon do
 
     computer_move(Game.info())
   end
+
+  defp handle_started_computer(%{turn: :computer, status: :started}) do
+    computer_move(%{turn: :computer, status: :continue})
+  end
+
+  defp handle_started_computer(_), do: :ok
 
   defp do_move({:error, move}), do: Status.print_wrong_move_message(move)
 
